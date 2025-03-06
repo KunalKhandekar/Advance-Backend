@@ -10,4 +10,15 @@ cityRoutes.post(
   cityController.createCity
 );
 
+// DELETE -> /api/v1/cities
+cityRoutes.delete("/:id", cityController.destoryCity);
+
+// PATCH -> /api/v1/cities
+// Using Same MiddleWare because same validation is required
+cityRoutes.patch(
+  "/:id",
+  CityMiddleware.validateCreateRequest,
+  cityController.updateCity
+);
+
 module.exports = cityRoutes;

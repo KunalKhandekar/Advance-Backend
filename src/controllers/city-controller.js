@@ -22,7 +22,44 @@ async function createCity(req, res) {
   }
 }
 
-module.exports = {
-    createCity,
+/**
+ DELETE : /cities
+ req-body : {} 
+ **/
+async function destoryCity(req, res) {
+  try {
+    const city = await CityService.destoryCity(req.params?.id);
+    SuccessResponse.message = "Successfully Deleted the city";
+    SuccessResponse.data = city;
+    return res.status(StatusCodes.OK).json(SuccessResponse);
+  } catch (error) {
+    ErrorResponse.message = "Something went wrong while deleting the city";
+    ErrorResponse.error = error;
+    return res.status(error.statusCode).json(ErrorResponse);
+  }
+}
 
+/**
+ PATCH : /cities
+ req-body : {name : "bombay"} 
+ **/
+async function updateCity(req, res) {
+  try {
+    const city = await CityService.updateCity(req.params?.id, {
+      name: req.body.name,
+    });
+    SuccessResponse.message = "Successfully updated the city";
+    SuccessResponse.data = city;
+    return res.status(StatusCodes.OK).json(SuccessResponse);
+  } catch (error) {
+    ErrorResponse.message = "Something went wrong while updating the city";
+    ErrorResponse.error = error;
+    return res.status(error.statusCode).json(ErrorResponse);
+  }
+}
+
+module.exports = {
+  createCity,
+  destoryCity,
+  updateCity,
 };
