@@ -1,4 +1,5 @@
-const { Logger } = require("../config");
+const { StatusCodes } = require("http-status-codes");
+const AppError = require("../utils/errors/app-errors");
 
 class CrudRepository {
   constructor(model) {
@@ -6,56 +7,55 @@ class CrudRepository {
   }
 
   async create(data) {
-    const response = await this.model.creat(data);
+    const response = await this.model.create(data);
     return response;
   }
 
   async destory(data) {
-    try {
-      const response = await this.model.destory({
-        where: {
-          id: data,
-        },
-      });
-      return response;
-    } catch (error) {
-      Logger.error("Something went wrong in the CRUD Repo: destory");
-      throw error;
+    const response = await this.model.destroy({
+      where: {
+        id: data,
+      },
+    });
+    if (!response) {
+      throw new AppError(
+        "Not able to find the resources",
+        StatusCodes.NOT_FOUND
+      );
     }
+    return response;
   }
 
   async get(data) {
-    try {
-      const response = await this.model.findByPK(data);
-      return response;
-    } catch (error) {
-      Logger.error("Something went wrong in the CRUD Repo: get");
-      throw error;
+    const response = await this.model.findByPk(data);
+    if (!response) {
+      throw new AppError(
+        "Not able to find the resources",
+        StatusCodes.NOT_FOUND
+      );
     }
+    return response;
   }
 
   async getAll() {
-    try {
-      const response = await this.model.findAll();
-      return response;
-    } catch (error) {
-      Logger.error("Something went wrong in the CRUD Repo: getAll");
-      throw error;
-    }
+    const response = await this.model.findAll();
+    return response;
   }
 
   async update(id, data) {
-    try {
-      const response = await this.model.update(data, {
-        where: {
-          id: id,
-        },
-      });
-      return response;
-    } catch (error) {
-      Logger.error("Something went wrong in the CRUD Repo: update");
-      throw error;
+    const response = await this.model.update(data, {
+      where: {
+        id: id,
+      },
+    });
+
+    if (response[0] === 0) {
+      throw new AppError(
+        "Not able to find the resources",
+        StatusCodes.NOT_FOUND
+      );
     }
+    return response;
   }
 }
 
