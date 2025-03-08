@@ -40,6 +40,24 @@ async function destoryCity(req, res) {
 }
 
 /**
+ GET : /cities
+ req-body : {} 
+ **/
+async function getCities(_, res) {
+  try {
+    const cities = await CityService.getCities();
+    SuccessResponse.message = "Successfully Fetched all cities";
+    SuccessResponse.data = cities;
+    return res.status(StatusCodes.OK).json(SuccessResponse);
+  } catch (error) {
+    ErrorResponse.message =
+      "Something went wrong while fetching all the cities";
+    ErrorResponse.error = error;
+    return res.status(error.statusCode).json(ErrorResponse);
+  }
+}
+
+/**
  PATCH : /cities
  req-body : {name : "bombay"} 
  **/
@@ -62,4 +80,5 @@ module.exports = {
   createCity,
   destoryCity,
   updateCity,
+  getCities,
 };

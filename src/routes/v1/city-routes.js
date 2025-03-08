@@ -10,6 +10,9 @@ cityRoutes.post(
   cityController.createCity
 );
 
+// GET -> /api/v1/cities
+cityRoutes.get("/", cityController.getCities);
+
 // DELETE -> /api/v1/cities
 cityRoutes.delete("/:id", cityController.destoryCity);
 
