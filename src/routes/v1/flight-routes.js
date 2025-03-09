@@ -10,4 +10,10 @@ flightRoutes.post(
   flightController.createFlight
 );
 
+
+// GET -> /api/v1/flights?trips=MUM-BLR
+flightRoutes.get("/",
+  flightController.getAllFlights
+)
+
 module.exports = flightRoutes;
