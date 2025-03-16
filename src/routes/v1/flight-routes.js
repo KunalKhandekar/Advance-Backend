@@ -16,4 +16,9 @@ flightRoutes.get("/",
   flightController.getAllFlights
 )
 
+// GET -> /api/v1/flights/:id
+flightRoutes.get("/:id",
+  flightController.getFlight
+)
+
 module.exports = flightRoutes;
