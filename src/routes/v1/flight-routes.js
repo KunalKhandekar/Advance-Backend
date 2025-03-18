@@ -21,4 +21,6 @@ flightRoutes.get("/:id",
   flightController.getFlight
 )
 
+flightRoutes.patch("/:id/seats/", FlightMiddleware.validateUpdateSeatsRequest, flightController.updateSeats)
+
 module.exports = flightRoutes;
